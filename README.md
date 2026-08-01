@@ -82,7 +82,7 @@ $config->setAccessToken($_ENV['ACCESS_TOKEN']);
 $resource = new TiktokShopGeneralResource();
 $response = $resource->httpCallGet(
     $_ENV['SERVER_URL'],
-    '/api/shop/get_authorized_shop',
+    '/authorization/202309/shops',
     [],
     $config
 );

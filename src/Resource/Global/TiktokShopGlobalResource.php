@@ -14,7 +14,7 @@ class TiktokShopGlobalResource
      */
     public function getAuthorizedShops($baseUrl, TiktokShopConfig $apiConfig)
     {
-        return GlobalWithOutBody::makeGetMethod("GET", $baseUrl, "/api/shop/get_authorized_shop", [], $apiConfig);
+        return GlobalWithOutBody::makeGetMethod("GET", $baseUrl, "/authorization/202309/shops", [], $apiConfig);
     }
 
     /**

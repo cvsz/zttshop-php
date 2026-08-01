@@ -24,7 +24,7 @@ class GeneralWithOutBody
         if ($apiConfig->getAppKey() == "") throw new Exception("Input of [app_key] is empty");
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
         if ($apiConfig->getAccessToken() == "") throw new Exception("Input of [access_token] is empty");
-        if($apiPath != "/api/shop/get_authorized_shop")
+        if ($apiPath !== "/authorization/202309/shops")
         {
             if ($apiConfig->getShopId() == "") throw new Exception("Input of [shop_id] is empty");
         }

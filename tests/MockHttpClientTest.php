@@ -110,7 +110,7 @@ class MockHttpClientTest extends TestCase
         $globalResponse = GlobalWithOutBody::makeGetMethod(
             "GET",
             "http://127.0.0.1:1",
-            "/api/shop/get_authorized_shop",
+            "/authorization/202309/shops",
             null,
             $config
         );

@@ -23,7 +23,7 @@ class GeneralRequestTest extends IntegrationTestCase
         $tiktokGeneralResource = new TiktokShopGeneralResource();
 
         $baseUrl = $_ENV["SERVER_URL"];
-        $apiAuthorizedShop = "/api/shop/get_authorized_shop";
+        $apiAuthorizedShop = "/authorization/202309/shops";
 
         $response = $tiktokGeneralResource->httpCallGet($baseUrl, $apiAuthorizedShop, [], $tiktokShopConfig);
 
