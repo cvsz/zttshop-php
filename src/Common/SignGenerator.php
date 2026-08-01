@@ -4,7 +4,7 @@ namespace Aftwork\TiktokShop\Common;
 
 class SignGenerator
 {
-    public static function generateSign($apiPathName, $appSecret, &$params)
+    public static function generateSign($apiPathName, $appSecret, $params)
     {
         $paramsToBeSigned = $params;
         $stringToBeSigned = '';

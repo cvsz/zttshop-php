@@ -79,8 +79,20 @@ class MockHttpClientTest extends TestCase
         // Sign should be generated consistently regardless of input order
         $params2 = ["m_param" => "middle", "z_param" => "last", "a_param" => "first"];
         $sign2 = \Aftwork\TiktokShop\Common\SignGenerator::generateSign($apiPath, $appSecret, $params2);
-        
+
         $this->assertEquals($sign, $sign2);
+    }
+
+    public function test_sign_generator_accepts_literal_arrays()
+    {
+        $sign = \Aftwork\TiktokShop\Common\SignGenerator::generateSign(
+            "/api/test",
+            "secret123",
+            ["a_param" => "first", "b_param" => "second"]
+        );
+
+        $this->assertIsString($sign);
+        $this->assertSame(64, strlen($sign));
     }
 
     public function test_video_resource_namespace_is_autoloadable()
