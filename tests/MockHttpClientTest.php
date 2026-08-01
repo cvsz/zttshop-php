@@ -5,6 +5,7 @@ namespace Test;
 use Aftwork\TiktokShop\Common\TiktokShopConfig;
 use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
 use Aftwork\TiktokShop\Resource\General\TiktokShopGeneralResource;
+use Aftwork\TiktokShop\Resource\Video\TiktokShopVideoResource;
 use PHPUnit\Framework\TestCase;
 
 class MockHttpClientTest extends TestCase
@@ -21,13 +22,18 @@ class MockHttpClientTest extends TestCase
     public function test_config_setters()
     {
         $config = new TiktokShopConfig();
-        $config->setAppKey("test_key");
-        $config->setSecretKey("test_secret");
-        $config->setAccessToken("test_token");
+        $same = $config->setAppKey("test_key")
+            ->setSecretKey("test_secret")
+            ->setAccessToken("test_token")
+            ->setRefreshToken("refresh_token")
+            ->setShopId("shop_id");
         
+        $this->assertSame($config, $same);
         $this->assertEquals("test_key", $config->getAppKey());
         $this->assertEquals("test_secret", $config->getSecretKey());
         $this->assertEquals("test_token", $config->getAccessToken());
+        $this->assertEquals("refresh_token", $config->getRefreshToken());
+        $this->assertEquals("shop_id", $config->getShopId());
     }
 
     public function test_sign_generator()
@@ -60,5 +66,10 @@ class MockHttpClientTest extends TestCase
         $sign2 = \Aftwork\TiktokShop\Common\SignGenerator::generateSign($apiPath, $appSecret, $params2);
         
         $this->assertEquals($sign, $sign2);
+    }
+
+    public function test_video_resource_namespace_is_autoloadable()
+    {
+        $this->assertTrue(class_exists(TiktokShopVideoResource::class));
     }
 }

@@ -65,9 +65,11 @@ class TiktokShopConfig
     /**
      * @param mixed $accessToken
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken($accessToken): self
     {
         $this->accessToken = $accessToken;
+
+        return $this;
     }
 
     /**
@@ -81,9 +83,11 @@ class TiktokShopConfig
     /**
      * @param mixed|string $refreshToken
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken($refreshToken): self
     {
         $this->refreshToken = $refreshToken;
+
+        return $this;
     }
 
 
@@ -98,9 +102,11 @@ class TiktokShopConfig
     /**
      * @param mixed $shopId
      */
-    public function setShopId($shopId)
+    public function setShopId($shopId): self
     {
         $this->shopId = $shopId;
+
+        return $this;
     }
 
     /**
@@ -114,9 +120,11 @@ class TiktokShopConfig
     /**
      * @param string $secretKey
      */
-    public function setSecretKey($secretKey)
+    public function setSecretKey($secretKey): self
     {
         $this->secretKey = $secretKey;
+
+        return $this;
     }
 
     /**

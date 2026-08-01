@@ -1,9 +1,9 @@
 <?php
 
-namespace TiktokShop\Request\Video;
+namespace Aftwork\TiktokShop\Request\Video;
 
-use TiktokShop\Common\SignGenerator;
-use TiktokShop\Common\TiktokShopConfig;
+use Aftwork\TiktokShop\Common\SignGenerator;
+use Aftwork\TiktokShop\Common\TiktokShopConfig;
 use Exception;
 use GuzzleHttp\Client;
 

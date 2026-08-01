@@ -1,10 +1,10 @@
 <?php
 
-namespace TiktokShop\Resource\Video;
+namespace Aftwork\TiktokShop\Resource\Video;
 
-use TiktokShop\Common\TiktokShopConfig;
-use TiktokShop\Request\Video\VideoWithBody;
-use TiktokShop\Request\Video\VideoWithOutBody;
+use Aftwork\TiktokShop\Common\TiktokShopConfig;
+use Aftwork\TiktokShop\Request\Video\VideoWithBody;
+use Aftwork\TiktokShop\Request\Video\VideoWithOutBody;
 
 class TiktokShopVideoResource
 {

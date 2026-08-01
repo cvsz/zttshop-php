@@ -3,7 +3,6 @@
 namespace Aftwork\TiktokShop\Resource\Auth;
 
 use Aftwork\TiktokShop\Common\TiktokShopConfig;
-use Aftwork\TiktokShop\Request\Auth\AuthWithBody;
 use Aftwork\TiktokShop\Request\Auth\AuthWithOutBody;
 
 
