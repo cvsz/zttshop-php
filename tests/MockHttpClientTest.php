@@ -14,13 +14,13 @@ class MockHttpClientTest extends TestCase
 {
     public function test_generate_auth_url()
     {
-        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://auth.tiktok.com/oauth/authorize", "test_app_key", [
+        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://shop.tiktok.com/alliance/creator/auth", "test_app_key", [
             "redirect_uri" => "https://example.com/callback",
             "scope" => "user.info.basic",
         ]);
 
         $this->assertIsString($authUrl);
-        $this->assertStringContainsString("/oauth/authorize", $authUrl);
+        $this->assertStringContainsString("/alliance/creator/auth", $authUrl);
 
         parse_str(parse_url($authUrl, PHP_URL_QUERY), $query);
 
