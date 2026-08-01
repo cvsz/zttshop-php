@@ -25,6 +25,8 @@ class VideoWithOutBody
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
         if ($apiConfig->getAccessToken() == "") throw new Exception("Input of [access_token] is empty");
 
+        $params = $params ?? [];
+
         //Timestamp
         $timeStamp = time();
         $params["timestamp"] = $timeStamp;
@@ -77,6 +79,8 @@ class VideoWithOutBody
         if ($apiConfig->getAppKey() == "") throw new Exception("Input of [app_key] is empty");
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
         if ($apiConfig->getAccessToken() == "") throw new Exception("Input of [access_token] is empty");
+
+        $params = $params ?? [];
 
         //Timestamp
         $timeStamp = time();

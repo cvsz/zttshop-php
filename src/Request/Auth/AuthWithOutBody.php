@@ -22,6 +22,7 @@ class AuthWithOutBody
         // Validate Input
         if ($apiConfig->getAppKey() == "") throw new Exception("Input of [app_key] is empty");
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
+        $params = $params ?? [];
 
         $apiPath .= "?app_key=".$apiConfig->getAppKey()."&app_secret=".$apiConfig->getSecretKey();
 

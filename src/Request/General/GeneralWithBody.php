@@ -25,6 +25,8 @@ class GeneralWithBody
         if ($apiConfig->getAccessToken() == "") throw new Exception("Input of [access_token] is empty");
         if ($apiConfig->getShopId() == "") throw new Exception("Input of [shop_id] is empty");
 
+        $params = $params ?? [];
+
         //Timestamp
         $timeStamp = time();
         $params["timestamp"] = $timeStamp;

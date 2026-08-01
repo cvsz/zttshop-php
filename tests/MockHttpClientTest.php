@@ -4,8 +4,9 @@ namespace Test;
 
 use Aftwork\TiktokShop\Common\TiktokShopConfig;
 use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
-use Aftwork\TiktokShop\Resource\General\TiktokShopGeneralResource;
 use Aftwork\TiktokShop\Resource\Video\TiktokShopVideoResource;
+use Aftwork\TiktokShop\Request\Global\GlobalWithOutBody;
+use Aftwork\TiktokShop\Request\Video\VideoWithBody;
 use PHPUnit\Framework\TestCase;
 
 class MockHttpClientTest extends TestCase
@@ -71,5 +72,35 @@ class MockHttpClientTest extends TestCase
     public function test_video_resource_namespace_is_autoloadable()
     {
         $this->assertTrue(class_exists(TiktokShopVideoResource::class));
+    }
+
+    public function test_request_helpers_accept_null_params()
+    {
+        $config = new TiktokShopConfig();
+        $config->setAppKey("test_key");
+        $config->setSecretKey("test_secret");
+        $config->setAccessToken("test_token");
+
+        $globalResponse = GlobalWithOutBody::makeGetMethod(
+            "GET",
+            "http://127.0.0.1:1",
+            "/api/shop/get_authorized_shop",
+            null,
+            $config
+        );
+
+        $videoResponse = VideoWithBody::makeMethod(
+            "POST",
+            "http://127.0.0.1:1",
+            "/api/video/search",
+            null,
+            [],
+            $config
+        );
+
+        $this->assertIsObject($globalResponse);
+        $this->assertEquals("GUZZLE_ERROR", $globalResponse->error);
+        $this->assertIsObject($videoResponse);
+        $this->assertEquals("GUZZLE_ERROR", $videoResponse->error);
     }
 }
