@@ -1,181 +1,140 @@
-# TikTok Shop API Client - PHP SDK
+# TikTok Shop API Client for PHP
 
-A comprehensive, modular, and secure PHP client for the TikTok Shop Open Platform. This SDK covers all major API modules including Products, Orders, Logistics, Finance, Returns, Warehouses, Global Settings, Video Content, AI Content Generation, and AI Chat capabilities.
+Unofficial PHP SDK for the TikTok Shop Open Platform.
 
-## 🚀 Features
+This repository exposes resource-oriented clients for common TikTok Shop API areas:
 
-- **Complete API Coverage**: Products, Orders, Logistics, Finance, Returns, Warehouses, Global Settings.
-- **Advanced Content Automation**: Video upload, product linking, AI script generation, and visual prompt engineering.
-- **AI Chat Integration**: Intelligent chat bubbles with persona configuration, product context, and order awareness.
-- **Secure Authentication**: Built-in HMAC-SHA256 signature generation, token management, and automatic refreshing.
-- **Modular Architecture**: PSR-4 compliant, easy to extend, and dependency-injection ready.
-- **Robust Error Handling**: Custom exceptions for API errors, rate limits, and validation failures.
-- **Tested Core**: PHPUnit tests included for authentication, signing, and core configuration.
+- Auth
+- General account and shop operations
+- Product management
+- Order management
+- Logistics
+- Finance
+- Returns and refunds
+- Warehouse management
+- Video management
 
-## 📋 Requirements
+The package namespace is `Aftwork\TiktokShop\`.
 
-- PHP 8.1+
-- Composer
-- Guzzle HTTP Client
-- TikTok Shop Seller Account & API Credentials
-
-## 🛠️ Installation
+## Installation
 
 ```bash
-composer require tiktok-shop/client
-# Or clone this repo and install dependencies
+composer require haistar/tiktokshop-api-client
+```
+
+If you are working from a local clone:
+
+```bash
 composer install
 ```
 
-## ⚙️ Configuration
+## Requirements
 
-Create a `.env` file in your project root:
+- PHP 8.1 or newer
+- Composer
+- Guzzle HTTP client
+- TikTok Shop app credentials
 
-```env
-TIKTOK_APP_KEY=your_app_key
-TIKTOK_APP_SECRET=your_app_secret
-TIKTOK_ACCESS_TOKEN=your_access_token
-TIKTOK_SHOP_ID=your_shop_id
-TIKTOK_ENV=sandbox # or 'production'
-```
+## Configuration
 
-Initialize the client in your PHP code:
+Create a `TiktokShopConfig` instance and set the credentials required by the API:
 
 ```php
-require 'vendor/autoload.php';
-
-use TiktokShop\TiktokShopClient;
-use TiktokShop\Config\TiktokShopConfig;
+use Aftwork\TiktokShop\Common\TiktokShopConfig;
 
 $config = new TiktokShopConfig();
-$config->setAppKey(getenv('TIKTOK_APP_KEY'))
-       ->setAppSecret(getenv('TIKTOK_APP_SECRET'))
-       ->setAccessToken(getenv('TIKTOK_ACCESS_TOKEN'))
-       ->setShopId(getenv('TIKTOK_SHOP_ID'))
-       ->setEnvironment('sandbox'); // or 'production'
-
-$client = new TiktokShopClient($config);
+$config->setAppKey(getenv('APP_KEY'));
+$config->setSecretKey(getenv('APP_SECRET'));
+$config->setAccessToken(getenv('ACCESS_TOKEN'));
+$config->setRefreshToken(getenv('REFRESH_TOKEN'));
+$config->setShopId(getenv('SHOP_ID'));
 ```
 
-## 📚 Usage Examples
+The tests and resources in this repository use separate base URLs for auth and API calls.
 
-### 1. Product Management
+- Auth examples use the auth host stored in `AUTH_URL`
+- API examples use the API host stored in `SERVER_URL`
+
+## Quick Start
+
+### Generate an authorization URL
+
 ```php
-$products = $client->products()->list(['page_size' => 20]);
-$product = $client->products()->get($productId);
-$client->products()->updatePrice($productId, ['price' => 19.99]);
-$client->products()->updateStock($productId, [['seller_sku' => 'SKU123', 'stock' => 100]]);
+use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
+
+$authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV['AUTH_URL'], $_ENV['APP_KEY']);
 ```
 
-### 2. Order Fulfillment
+### Call an authenticated API endpoint
+
 ```php
-$orders = $client->orders()->search(['order_status' => 'AWAITING_SHIPMENT']);
-$client->orders()->ship($orderId, [
-    'tracking_number' => '123456789',
-    'shipping_provider_id' => 'provider_id'
-]);
+use Aftwork\TiktokShop\Common\TiktokShopConfig;
+use Aftwork\TiktokShop\Resource\General\TiktokShopGeneralResource;
+
+$config = new TiktokShopConfig();
+$config->setAppKey($_ENV['APP_KEY']);
+$config->setSecretKey($_ENV['APP_SECRET']);
+$config->setAccessToken($_ENV['ACCESS_TOKEN']);
+
+$resource = new TiktokShopGeneralResource();
+$response = $resource->httpCallGet(
+    $_ENV['SERVER_URL'],
+    '/api/shop/get_authorized_shop',
+    [],
+    $config
+);
 ```
 
-### 3. AI Content Generation (Video Scripts & Prompts)
+### Sign request parameters
+
 ```php
-// Analyze product for key selling points
-$affinity = $client->content()->analyzeProductAffinity($productId);
+use Aftwork\TiktokShop\Common\SignGenerator;
 
-// Generate a viral video script
-$script = $client->content()->generateVideoScript([
-    'product_name' => 'Super Widget',
-    'usp' => $affinity['usp'],
-    'target_audience' => 'Tech enthusiasts',
-    'tone' => 'Energetic'
-]);
+$params = [
+    'auth_code' => $_ENV['AUTH_CODE'],
+    'grant_type' => 'authorized_code',
+];
 
-// Generate AI visual prompts for video creation tools
-$prompts = $client->content()->generateVisualPrompt([
-    'product_image_url' => 'https://...',
-    'scene' => 'Modern desk setup',
-    'style' => 'Cinematic 4k'
-]);
+$sign = SignGenerator::generateSign('/api/v2/token/get', $_ENV['APP_SECRET'], $params);
 ```
 
-### 4. Video Management & Product Linking
-```php
-// Initialize upload
-$uploadSession = $client->videos()->initUpload(['file_name' => 'video.mp4']);
+## Available Resources
 
-// ... (Upload file logic using $uploadSession['upload_url']) ...
+The repository currently includes these resource classes:
 
-// Commit upload
-$videoId = $client->videos()->commitUpload($uploadSession['upload_id']);
+- `Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource`
+- `Aftwork\TiktokShop\Resource\General\TiktokShopGeneralResource`
+- `Aftwork\TiktokShop\Resource\Product\TiktokShopProductResource`
+- `Aftwork\TiktokShop\Resource\Order\TiktokShopOrderResource`
+- `Aftwork\TiktokShop\Resource\Logistics\TiktokShopLogisticsResource`
+- `Aftwork\TiktokShop\Resource\Finance\TiktokShopFinanceResource`
+- `Aftwork\TiktokShop\Resource\ReturnRefund\TiktokShopReturnRefundResource`
+- `Aftwork\TiktokShop\Resource\Warehouse\TiktokShopWarehouseResource`
+- `Aftwork\TiktokShop\Resource\Video\TiktokShopVideoResource`
+- `Aftwork\TiktokShop\Resource\Global\TiktokShopGlobalResource`
 
-// Link products to make video shoppable
-$client->videos()->linkProducts($videoId, [$productId]);
-```
-
-### 5. AI Chat Bubble Integration
-```php
-// Configure a Sales Bot persona
-$persona = $client->chat()->createPersona([
-    'name' => 'SalesBot',
-    'role' => 'sales_assistant',
-    'tone' => 'friendly',
-    'knowledge_base' => ['products', 'promotions']
-]);
-
-// Send a message with product context
-$response = $client->chat()->sendMessage([
-    'session_id' => $sessionId,
-    'message' => 'Is this available in blue?',
-    'product_id' => $productId, // Auto-injects product details
-    'persona_id' => $persona['id']
-]);
-```
-
-### 6. Logistics & Returns
-```php
-$carriers = $client->logistics()->getCarriers();
-$tracking = $client->logistics()->trackPackage($trackingNumber);
-
-$returnRequests = $client->returns()->list(['status' => 'PENDING']);
-$client->returns()->approve($returnId);
-```
-
-### 7. Finance & Settlements
-```php
-$settlements = $client->finance()->getSettlements(['date_from' => '2023-10-01']);
-$transactions = $client->finance()->getTransactions($settlementId);
-```
-
-## 🏗️ Architecture
-
-- **`TiktokShopClient`**: Main entry point, manages resources.
-- **`Config\TiktokShopConfig`**: Holds credentials and environment settings.
-- **`SignGenerator`**: Handles HMAC-SHA256 signature creation for requests.
-- **`Resources\*`**: High-level API groups (e.g., `ProductResource`, `OrderResource`).
-- **`Requests\*`**: Low-level HTTP request builders with validation.
-
-## 🧪 Testing
-
-Run the test suite:
+## Testing
 
 ```bash
-vendor/bin/phpunit
+composer test
 ```
 
-*Note: Integration tests require valid API credentials. Unit tests mock HTTP responses.*
+The test suite includes:
 
-## 🤝 Contributing
+- Auth URL and token flow checks
+- Signing behavior checks
+- A general shop fetch test
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add amazing feature'`).
-4. Push to the branch (`git push origin feature/amazing-feature`).
-5. Open a Pull Request.
+Some tests expect live TikTok Shop credentials in the environment.
 
-## 📄 License
+## Documentation
 
-MIT License. See [LICENSE](LICENSE) for details.
+- [Project docs](PROJECT_DOCS.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Support](SUPPORT.md)
+- [Security policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
 
-## 🆘 Support
+## License
 
-For API-specific issues, refer to the [TikTok Shop Developer Portal](https://partner.tiktokshop.com/docv2).
-For SDK bugs, please open an issue on GitHub.
+MIT. See [LICENSE](LICENSE).

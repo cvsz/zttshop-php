@@ -1,7 +1,9 @@
 {
     "name": "haistar/tiktokshop-api-client",
-    "description": "Unofficial Tiktok Shop API Client build in PHP",
+    "description": "Unofficial TikTok Shop API client built in PHP",
     "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/cvsz/zttshop-php",
     "autoload": {
         "psr-4": {
             "Aftwork\\TiktokShop\\": "src/"
@@ -27,5 +29,9 @@
     },
     "scripts": {
         "test" : "phpunit --testdox"
+    },
+    "support": {
+        "issues": "https://github.com/cvsz/zttshop-php/issues",
+        "source": "https://github.com/cvsz/zttshop-php"
     }
 }
