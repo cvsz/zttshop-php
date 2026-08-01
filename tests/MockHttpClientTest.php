@@ -14,7 +14,7 @@ class MockHttpClientTest extends TestCase
 {
     public function test_generate_auth_url()
     {
-        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://auth.tiktok.com", "test_app_key", [
+        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://auth.tiktok.com/oauth/authorize", "test_app_key", [
             "redirect_uri" => "https://example.com/callback",
             "scope" => "user.info.basic",
         ]);

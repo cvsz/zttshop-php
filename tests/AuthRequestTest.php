@@ -10,12 +10,12 @@ class AuthRequestTest extends IntegrationTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requireEnv(['AUTH_URL', 'APP_KEY', 'APP_SECRET', 'AUTH_CODE', 'REFRESH_TOKEN']);
+        $this->requireEnv(['AUTH_URL', 'AUTH_AUTHORIZE_URL', 'APP_KEY', 'APP_SECRET', 'AUTH_CODE', 'REFRESH_TOKEN']);
     }
 
     public function test_generate_auth_url()
     {
-        $authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV["AUTH_URL"], $_ENV["APP_KEY"]);
+        $authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV["AUTH_AUTHORIZE_URL"], $_ENV["APP_KEY"]);
 
         $this->assertIsString($authUrl);
     }
@@ -32,8 +32,8 @@ class AuthRequestTest extends IntegrationTestCase
         $apiAccessToken = "/api/v2/token/get";
 
         $params = [
-            "code" => $_ENV["AUTH_CODE"],
-            "grant_type" => "authorization_code",
+            "auth_code" => $_ENV["AUTH_CODE"],
+            "grant_type" => "authorized_code",
         ];
 
         $response = $tiktokAuthResource->httpCallGet($baseUrl, $apiAccessToken, $params, $tiktokShopConfig);

@@ -21,12 +21,12 @@ class TiktokShopAuthResource
 
     /**
      * Generate Auth URL
-     * @param mixed $baseUrl
+     * @param mixed $authUrl
      * @param mixed $appKey
      * @param array<string, mixed> $queryParams
      * @return string
      */
-    public static function generateAuthUrl($baseUrl, $appKey, array $queryParams = [])
+    public static function generateAuthUrl($authUrl, $appKey, array $queryParams = [])
     {
         $queryParams = array_merge(
             [
@@ -36,7 +36,7 @@ class TiktokShopAuthResource
             $queryParams
         );
 
-        return rtrim($baseUrl, '/') . '/oauth/authorize?' . http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        return rtrim($authUrl, '/') . '?' . http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
     }
 
 }

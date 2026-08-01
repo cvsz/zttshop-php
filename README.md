@@ -54,7 +54,8 @@ $config->setShopId(getenv('SHOP_ID'));
 
 The tests and resources in this repository use separate base URLs for auth and API calls.
 
-- Auth examples use the auth host stored in `AUTH_URL`
+- Auth URL generation uses the exact authorization endpoint stored in `AUTH_AUTHORIZE_URL`
+- Auth token exchange uses the auth API base stored in `AUTH_URL`
 - API examples use the API host stored in `SERVER_URL`
 
 ## Quick Start
@@ -64,7 +65,7 @@ The tests and resources in this repository use separate base URLs for auth and A
 ```php
 use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
 
-$authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV['AUTH_URL'], $_ENV['APP_KEY']);
+$authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV['AUTH_AUTHORIZE_URL'], $_ENV['APP_KEY']);
 ```
 
 ### Call an authenticated API endpoint
@@ -93,8 +94,8 @@ $response = $resource->httpCallGet(
 use Aftwork\TiktokShop\Common\SignGenerator;
 
 $params = [
-    'code' => $_ENV['AUTH_CODE'],
-    'grant_type' => 'authorization_code',
+    'auth_code' => $_ENV['AUTH_CODE'],
+    'grant_type' => 'authorized_code',
 ];
 
 $sign = SignGenerator::generateSign('/api/v2/token/get', $_ENV['APP_SECRET'], $params);

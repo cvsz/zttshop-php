@@ -35,6 +35,7 @@ Copy [.env.example](.env.example) to `.env` and fill in real values:
 
 - `SERVER_URL`
 - `AUTH_URL`
+- `AUTH_AUTHORIZE_URL`
 - `APP_KEY`
 - `APP_SECRET`
 - `ACCESS_TOKEN`
@@ -55,7 +56,8 @@ These values come from your TikTok Shop developer app and authorization flow.
 
 The project documentation and tests use:
 
-- `AUTH_URL` for authorization and token endpoints
+- `AUTH_AUTHORIZE_URL` for the authorization redirect URL
+- `AUTH_URL` for token endpoints
 - `SERVER_URL` for normal API calls
 
 ## 5. Verify the setup

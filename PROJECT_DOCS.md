@@ -57,6 +57,8 @@ The public API is exposed through resource classes. Each one wraps the lower-lev
 - `generateAuthUrl()`
 - `httpCallGet()` for token exchange and refresh flows
 
+`generateAuthUrl()` expects the exact authorization endpoint URL, not the token API base.
+
 ### General
 
 - `httpCallGet()`
