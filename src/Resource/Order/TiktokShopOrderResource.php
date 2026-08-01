@@ -62,7 +62,7 @@ class TiktokShopOrderResource
      * Get Orders by Status
      * @throws \Exception
      */
-    public function getOrdersByStatus($baseUrl, $status, $params = [], TiktokShopConfig $apiConfig)
+    public function getOrdersByStatus($baseUrl, $status, TiktokShopConfig $apiConfig, $params = [])
     {
         $params["order_status"] = $status;
         return OrderWithOutBody::makeGetMethod("GET", $baseUrl, "/api/orders/search", $params, $apiConfig);

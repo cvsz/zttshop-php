@@ -103,4 +103,27 @@ class MockHttpClientTest extends TestCase
         $this->assertIsObject($videoResponse);
         $this->assertEquals("GUZZLE_ERROR", $videoResponse->error);
     }
+
+    public function test_optional_resource_arguments_follow_required_config()
+    {
+        $productResource = new \ReflectionMethod(\Aftwork\TiktokShop\Resource\Product\TiktokShopProductResource::class, 'getCategories');
+        $productParams = $productResource->getParameters();
+        $this->assertSame('baseUrl', $productParams[0]->getName());
+        $this->assertSame('apiConfig', $productParams[1]->getName());
+        $this->assertTrue($productParams[2]->isOptional());
+
+        $brandsResource = new \ReflectionMethod(\Aftwork\TiktokShop\Resource\Product\TiktokShopProductResource::class, 'getBrands');
+        $brandsParams = $brandsResource->getParameters();
+        $this->assertSame('baseUrl', $brandsParams[0]->getName());
+        $this->assertSame('categoryId', $brandsParams[1]->getName());
+        $this->assertSame('apiConfig', $brandsParams[2]->getName());
+        $this->assertTrue($brandsParams[3]->isOptional());
+
+        $ordersResource = new \ReflectionMethod(\Aftwork\TiktokShop\Resource\Order\TiktokShopOrderResource::class, 'getOrdersByStatus');
+        $ordersParams = $ordersResource->getParameters();
+        $this->assertSame('baseUrl', $ordersParams[0]->getName());
+        $this->assertSame('status', $ordersParams[1]->getName());
+        $this->assertSame('apiConfig', $ordersParams[2]->getName());
+        $this->assertTrue($ordersParams[3]->isOptional());
+    }
 }

@@ -118,7 +118,7 @@ class TiktokShopProductResource
      * Get Categories
      * @throws \Exception
      */
-    public function getCategories($baseUrl, $parentId = null, TiktokShopConfig $apiConfig)
+    public function getCategories($baseUrl, TiktokShopConfig $apiConfig, $parentId = null)
     {
         $params = [];
         if ($parentId !== null) {
@@ -141,7 +141,7 @@ class TiktokShopProductResource
      * Get Brands
      * @throws \Exception
      */
-    public function getBrands($baseUrl, $categoryId, $keyword = null, TiktokShopConfig $apiConfig)
+    public function getBrands($baseUrl, $categoryId, TiktokShopConfig $apiConfig, $keyword = null)
     {
         $params = ["category_id" => $categoryId];
         if ($keyword !== null) {
