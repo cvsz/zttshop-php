@@ -1,0 +1,60 @@
+```
+# Cache and test artifacts
+.phpunit.result.cache
+
+# Dependencies
+vendor/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build artifacts
+dist/
+build/
+target/
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# PHP specific
+*.php~
+*.php.bak
+
+# IDE and editor files
+*.swp
+*.swo
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+```
