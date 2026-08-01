@@ -93,8 +93,8 @@ $response = $resource->httpCallGet(
 use Aftwork\TiktokShop\Common\SignGenerator;
 
 $params = [
-    'auth_code' => $_ENV['AUTH_CODE'],
-    'grant_type' => 'authorized_code',
+    'code' => $_ENV['AUTH_CODE'],
+    'grant_type' => 'authorization_code',
 ];
 
 $sign = SignGenerator::generateSign('/api/v2/token/get', $_ENV['APP_SECRET'], $params);

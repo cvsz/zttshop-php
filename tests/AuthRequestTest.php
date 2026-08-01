@@ -32,8 +32,8 @@ class AuthRequestTest extends IntegrationTestCase
         $apiAccessToken = "/api/v2/token/get";
 
         $params = [
-            "auth_code" => $_ENV["AUTH_CODE"],
-            "grant_type" => "authorized_code",
+            "code" => $_ENV["AUTH_CODE"],
+            "grant_type" => "authorization_code",
         ];
 
         $response = $tiktokAuthResource->httpCallGet($baseUrl, $apiAccessToken, $params, $tiktokShopConfig);

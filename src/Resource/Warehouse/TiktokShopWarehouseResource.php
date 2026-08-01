@@ -62,6 +62,7 @@ class TiktokShopWarehouseResource
      */
     public function getWarehouseStock($baseUrl, $warehouseId, $params, TiktokShopConfig $apiConfig)
     {
+        $params = $params ?? [];
         $params["warehouse_id"] = $warehouseId;
         return WarehouseWithOutBody::makeGetMethod("GET", $baseUrl, "/api/warehouses/stock", $params, $apiConfig);
     }

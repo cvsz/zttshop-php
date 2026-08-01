@@ -7,17 +7,27 @@ use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
 use Aftwork\TiktokShop\Resource\Video\TiktokShopVideoResource;
 use Aftwork\TiktokShop\Request\Global\GlobalWithOutBody;
 use Aftwork\TiktokShop\Request\Video\VideoWithBody;
+use Aftwork\TiktokShop\Resource\Warehouse\TiktokShopWarehouseResource;
 use PHPUnit\Framework\TestCase;
 
 class MockHttpClientTest extends TestCase
 {
     public function test_generate_auth_url()
     {
-        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://auth.tiktok.com", "test_app_key");
-        
+        $authUrl = TiktokShopAuthResource::generateAuthUrl("https://auth.tiktok.com", "test_app_key", [
+            "redirect_uri" => "https://example.com/callback",
+            "scope" => "user.info.basic",
+        ]);
+
         $this->assertIsString($authUrl);
-        $this->assertStringContainsString("app_key=test_app_key", $authUrl);
         $this->assertStringContainsString("/oauth/authorize", $authUrl);
+
+        parse_str(parse_url($authUrl, PHP_URL_QUERY), $query);
+
+        $this->assertSame("test_app_key", $query["app_key"]);
+        $this->assertSame("https://example.com/callback", $query["redirect_uri"]);
+        $this->assertSame("user.info.basic", $query["scope"]);
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $query["state"]);
     }
 
     public function test_config_setters()
@@ -42,6 +52,7 @@ class MockHttpClientTest extends TestCase
         $config = new TiktokShopConfig();
         $config->setAppKey("test_key");
         $config->setSecretKey("test_secret");
+        $config->setAccessToken("test_token");
         
         $params = ["param1" => "value1", "param2" => "value2"];
         $apiPath = "/api/test";
@@ -106,6 +117,11 @@ class MockHttpClientTest extends TestCase
 
     public function test_optional_resource_arguments_follow_required_config()
     {
+        $config = new TiktokShopConfig();
+        $config->setAppKey("test_key");
+        $config->setSecretKey("test_secret");
+        $config->setAccessToken("test_token");
+
         $productResource = new \ReflectionMethod(\Aftwork\TiktokShop\Resource\Product\TiktokShopProductResource::class, 'getCategories');
         $productParams = $productResource->getParameters();
         $this->assertSame('baseUrl', $productParams[0]->getName());
@@ -125,5 +141,15 @@ class MockHttpClientTest extends TestCase
         $this->assertSame('status', $ordersParams[1]->getName());
         $this->assertSame('apiConfig', $ordersParams[2]->getName());
         $this->assertTrue($ordersParams[3]->isOptional());
+
+        $warehouseResource = new TiktokShopWarehouseResource();
+        $warehouseResponse = $warehouseResource->getWarehouseStock(
+            "http://127.0.0.1:1",
+            "warehouse-id",
+            null,
+            $config
+        );
+        $this->assertIsObject($warehouseResponse);
+        $this->assertEquals("GUZZLE_ERROR", $warehouseResponse->error);
     }
 }
