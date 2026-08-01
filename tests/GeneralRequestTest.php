@@ -4,20 +4,13 @@ namespace Test;
 
 use Aftwork\TiktokShop\Common\TiktokShopConfig;
 use Aftwork\TiktokShop\Resource\General\TiktokShopGeneralResource;
-use Dotenv\Dotenv;
-use PHPUnit\Framework\TestCase;
 
-class GeneralRequestTest extends TestCase
+class GeneralRequestTest extends IntegrationTestCase
 {
     protected function setUp(): void
     {
-        $dotEnv = Dotenv::createImmutable(__DIR__."./../");
-        $dotEnv->safeLoad();
-    }
-
-    protected function tearDown(): void
-    {
-        return;
+        parent::setUp();
+        $this->requireEnv(['APP_KEY', 'APP_SECRET', 'ACCESS_TOKEN', 'SERVER_URL', 'SELLER_NAME']);
     }
 
     public function test_get_authorized_shop()

@@ -28,7 +28,7 @@
         "guzzlehttp/guzzle": "^7.0"
     },
     "scripts": {
-        "test" : "phpunit --testdox"
+        "test" : "vendor/bin/phpunit --testdox"
     },
     "support": {
         "issues": "https://github.com/cvsz/zttshop-php/issues",

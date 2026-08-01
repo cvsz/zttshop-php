@@ -28,6 +28,8 @@ If you are working from a local clone:
 composer install
 ```
 
+For a complete local setup checklist, see [SETUP.md](SETUP.md).
+
 ## Requirements
 
 - PHP 8.1 or newer
@@ -125,10 +127,11 @@ The test suite includes:
 - Signing behavior checks
 - A general shop fetch test
 
-Some tests expect live TikTok Shop credentials in the environment.
+Integration tests are skipped automatically unless the required TikTok Shop environment variables are present.
 
 ## Documentation
 
+- [Setup guide](SETUP.md)
 - [Project docs](PROJECT_DOCS.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Support](SUPPORT.md)

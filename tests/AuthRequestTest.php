@@ -4,20 +4,13 @@ namespace Test;
 
 use Aftwork\TiktokShop\Common\TiktokShopConfig;
 use Aftwork\TiktokShop\Resource\Auth\TiktokShopAuthResource;
-use Dotenv\Dotenv;
-use PHPUnit\Framework\TestCase;
 
-class AuthRequestTest extends TestCase
+class AuthRequestTest extends IntegrationTestCase
 {
     protected function setUp(): void
     {
-        $dotEnv = Dotenv::createImmutable(__DIR__."./../");
-        $dotEnv->safeLoad();
-    }
-
-    protected function tearDown(): void
-    {
-        
+        parent::setUp();
+        $this->requireEnv(['AUTH_URL', 'APP_KEY', 'APP_SECRET', 'AUTH_CODE', 'REFRESH_TOKEN']);
     }
 
     public function test_generate_auth_url()

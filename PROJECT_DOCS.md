@@ -221,6 +221,10 @@ Run the suite with:
 composer test
 ```
 
+For local environment and credential setup, see [SETUP.md](SETUP.md) and [.env.example](.env.example).
+
+Integration tests self-skip if the required TikTok Shop environment variables are not available.
+
 ## Documentation Maintenance
 
 When adding a new endpoint or resource:
