@@ -29,11 +29,11 @@ class TiktokShopAuthResource
     public static function generateAuthUrl($authUrl, $appKey, array $queryParams = [])
     {
         $queryParams = array_merge(
+            $queryParams,
             [
                 'app_key' => $appKey,
                 'state' => bin2hex(random_bytes(16)),
-            ],
-            $queryParams
+            ]
         );
 
         return rtrim($authUrl, '/') . '?' . http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);

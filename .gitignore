@@ -1,4 +1,3 @@
-```
 # Cache and test artifacts
 .phpunit.result.cache
 
@@ -58,4 +57,3 @@ __pycache__/
 *.temp
 *.bak
 *.backup
-```

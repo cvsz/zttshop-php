@@ -15,6 +15,8 @@ class MockHttpClientTest extends TestCase
     public function test_generate_auth_url()
     {
         $authUrl = TiktokShopAuthResource::generateAuthUrl("https://shop.tiktok.com/alliance/creator/auth", "test_app_key", [
+            "app_key" => "override_key",
+            "state" => "override_state",
             "redirect_uri" => "https://example.com/callback",
             "scope" => "user.info.basic",
         ]);
@@ -27,6 +29,7 @@ class MockHttpClientTest extends TestCase
         $this->assertSame("test_app_key", $query["app_key"]);
         $this->assertSame("https://example.com/callback", $query["redirect_uri"]);
         $this->assertSame("user.info.basic", $query["scope"]);
+        $this->assertNotSame("override_state", $query["state"]);
         $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $query["state"]);
     }
 
