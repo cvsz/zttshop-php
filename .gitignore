@@ -13,6 +13,7 @@ vendor/
 .env
 .env.local
 *.env.*
+!.env.example
 
 # Editors
 .vscode/
